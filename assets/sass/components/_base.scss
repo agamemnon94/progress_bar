@@ -1,0 +1,14 @@
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  min-height: 100svh;
+  background-color: $f1;
+  overflow: hidden;
+  text-align: center;
+  padding: 50px;
+}

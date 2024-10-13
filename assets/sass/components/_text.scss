@@ -1,0 +1,10 @@
+h1 {
+  color: $black;
+  font-size: clamp(2.5rem, 3svw, 4rem);
+  text-align: center;
+}
+
+span {
+  color: $white;
+  font-size: clamp(1.4rem, 3svw, 1.8rem);
+}

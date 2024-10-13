@@ -1,0 +1,13 @@
+// génére une série d'ombres de texte dynamiques pour la propriété CSS text-shadow
+@mixin text-shadow-mixin($color, $count) {
+  $shadow: "";
+
+  @for $i from 0 through $count - 1 {
+    $shadow: #{$shadow} #{$i}px #{$i}px 0 #{$color};
+    @if $i != $count - 1 {
+      $shadow: #{$shadow}#{", "}; // Utilisation de #{", "} pour ajouter la virgule avec un espace
+    }
+  }
+
+  text-shadow: $shadow;
+}
