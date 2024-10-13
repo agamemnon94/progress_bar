@@ -34,7 +34,7 @@ const changeValue = function () {
  * @param {int} targetWidth
  */
 const HandleProgresseBar = function (bar, targetWidth) {
-  animateBar(bar, 0, targetWidth, 1000);
+  animateBar(bar, 0, targetWidth, 500);
 };
 
 /**
@@ -73,8 +73,8 @@ const animateBar = function (bar, startWidth, targetWidth, duration) {
 
     // Interpolation des couleurs
     let color;
-    if (currentWidth <= 36) {
-      color = interpolateColor([234, 236, 236], [255, 0, 0], currentWidth / 35); // Blanc à Rouge
+    if (currentWidth <= 35) {
+      color = interpolateColor([57, 57, 57], [255, 0, 0], currentWidth / 35); // Blanc à Rouge
     } else if (currentWidth <= 50) {
       color = interpolateColor(
         [255, 0, 0],
