@@ -14,7 +14,7 @@ const changeValue = function () {
   const inputs = document.querySelectorAll("input");
 
   inputs.forEach((input, index) => {
-    const bar = input.nextElementSibling.querySelector("div");
+    const bar = document.getElementById(`bar_${index + 1}`);
     const parentBarElement = bar.parentElement;
     input.value = targetWidths[index];
 
@@ -44,7 +44,7 @@ const HandleProgresseBar = function (bar, targetWidth) {
  * @param {int} targetWidth - largeur cible provenant de la valeur de l'input
  */
 const refreshProgressBar = function (bar, currentWidth, targetWidth) {
-  animateBar(bar, currentWidth, targetWidth, 300);
+  animateBar(bar, currentWidth, targetWidth, 100);
 };
 
 /**
