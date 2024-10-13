@@ -1,44 +1,92 @@
+const targetWidths = [33, 51, 95]; // Tableau centralisé pour les largeurs cibles
+
 window.addEventListener("DOMContentLoaded", () => {
-  HandleProgresseBar(bar_1, 33);
-  HandleProgresseBar(bar_2, 51);
-  HandleProgresseBar(bar_3, 95);
+  targetWidths.forEach((width, index) => {
+    HandleProgresseBar(document.querySelector(`#bar_${index + 1}`), width);
+  });
+  changeValue();
 });
 
+/**
+ *
+ */
+const changeValue = function () {
+  const inputs = document.querySelectorAll("input");
+
+  inputs.forEach((input, index) => {
+    const bar = input.nextElementSibling.querySelector("div");
+    const parentBarElement = bar.parentElement;
+    input.value = targetWidths[index];
+
+    input.addEventListener("change", () => {
+      let value = parseInt(input.value);
+      let parentWidth = parentBarElement.offsetWidth;
+      let childWidth = bar.offsetWidth;
+      let barWidth = ((childWidth / parentWidth) * 100).toFixed(0);
+      refreshProgressBar(bar, parseInt(barWidth), value);
+    });
+  });
+};
+
+/**
+ * Anime la largeur des barres de progression au chargement de la page.
+ * @param {HTMLElement} bar
+ * @param {int} targetWidth
+ */
 const HandleProgresseBar = function (bar, targetWidth) {
+  animateBar(bar, 0, targetWidth, 1000);
+};
+
+/**
+ * Anime la largeur des barres de progression au changement de valeur des inputs.
+ * @param {HTMLElement} bar - barre de progression
+ * @param {int} Width - Largeur actuelle de l'élément
+ * @param {int} targetWidth - largeur cible provenant de la valeur de l'input
+ */
+const refreshProgressBar = function (bar, currentWidth, targetWidth) {
+  animateBar(bar, currentWidth, targetWidth, 300);
+};
+
+/**
+ * Fonction d'animation des barres de progression.
+ * @param {HTMLElement} bar - Barre de progression
+ * @param {int} startWidth - Largeur de départ
+ * @param {int} targetWidth - Largeur cible
+ * @param {int} duration - Durée de l'animation en millisecondes
+ */
+const animateBar = function (bar, startWidth, targetWidth, duration) {
   const barSpan = bar.querySelector("span");
-  let startWidth = 0; // Width de laquelle on part
-  const duration = 1000; // Durée de l'animation (en millisecondes)
-  const startTime = performance.now(); // Pour le calcul de temps : https://developer.mozilla.org/fr/docs/Web/API/Performance/now
+  const startTime = performance.now();
 
   const interpolateColor = (startColor, endColor, factor) => {
-    const result = startColor.map((start, index) => {
-      return Math.round(start + (endColor[index] - start) * factor);
-    });
+    const result = startColor.map((start, index) =>
+      Math.round(start + (endColor[index] - start) * factor)
+    );
     return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
   };
 
   const animate = (currentTime) => {
     const elapsedTime = currentTime - startTime;
-    const progress = Math.min(elapsedTime / duration, 1); // Limite à 1 (100%)
-    const currentWidth = startWidth - (startWidth - targetWidth) * progress;
+    const progress = Math.min(elapsedTime / duration, 1);
+    const currentWidth = startWidth + (targetWidth - startWidth) * progress;
     bar.style.width = currentWidth + "%";
 
     // Interpolation des couleurs
     let color;
     if (currentWidth <= 36) {
-      color = interpolateColor([255, 255, 255], [255, 0, 0], currentWidth / 35); // Blanc à Rouge
+      color = interpolateColor([234, 236, 236], [255, 0, 0], currentWidth / 35); // Blanc à Rouge
     } else if (currentWidth <= 50) {
       color = interpolateColor(
         [255, 0, 0],
         [0, 255, 0],
         (currentWidth - 35) / (50 - 35)
-      ); // Rouge à vert
+      ); // Rouge à Vert
     } else {
       color = interpolateColor(
         [0, 255, 0],
         [0, 128, 255],
         (currentWidth - 50) / (100 - 50)
-      ); // Vert à bleu
+      ); // Vert à Bleu
     }
 
     bar.style.backgroundColor = color; // Applique la couleur interpolée
