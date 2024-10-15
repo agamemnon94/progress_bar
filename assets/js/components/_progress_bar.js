@@ -1,9 +1,12 @@
 const targetWidths = [33, 51, 95]; // Tableau centralisé pour les largeurs cibles
-
+const delay = 500;
 window.addEventListener("DOMContentLoaded", () => {
-  targetWidths.forEach((width, index) => {
-    HandleProgresseBar(document.querySelector(`#bar_${index + 1}`), width);
-  });
+  setTimeout(() => {
+    targetWidths.forEach((width, index) => {
+      HandleProgresseBar(document.querySelector(`#bar_${index + 1}`), width);
+    });
+  }, delay);
+
   changeValue();
 });
 
